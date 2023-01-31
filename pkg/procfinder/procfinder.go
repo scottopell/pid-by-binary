@@ -15,6 +15,12 @@ func FindProcesses(pathToBinary string) ([]int32, error) {
 	if err != nil {
 		return nil, err
 	}
+
+	realPathToBinary, err := filepath.Abs(pathToBinary)
+	if err != nil {
+		return nil, err
+	}
+
 	pids := make([]int32, 0)
 	for _, match := range matches {
 		pathMatch := filepath.Join(rootPath, match)
@@ -25,7 +31,7 @@ func FindProcesses(pathToBinary string) ([]int32, error) {
 			continue
 		}
 		pidStr := strings.Split(match, "/")[1]
-		if linkTarget == pathToBinary {
+		if linkTarget == realPathToBinary {
 			// Ignoring errors, TODO - confirm pids fit into an int32
 			intPid, _ := strconv.ParseInt(pidStr, 10, 32)
 			pids = append(pids, int32(intPid))

@@ -37,7 +37,7 @@ var rootCmd = &cobra.Command{
 					}
 					memoryStats, err := proc.MemoryInfo()
 					if err != nil {
-						fmt.Println("Could not get process data for pid ", pid)
+						fmt.Println("Could not get memory info for pid ", pid)
 						continue
 					}
 					fmt.Printf("Pid: %v\tMemInfo: %s\n", pid, memoryStats.String())
@@ -51,8 +51,6 @@ var rootCmd = &cobra.Command{
 	},
 }
 
-// Execute adds all child commands to the root command and sets flags appropriately.
-// This is called by main.main(). It only needs to happen once to the rootCmd.
 func Execute() {
 	err := rootCmd.Execute()
 	if err != nil {
